@@ -21,6 +21,7 @@ const schemaOptions = {
         }
     },
     runSettersOnQuery: true,
+    versionKey: false,
 };
 
 const formatDateTime = (date) => moment(date).format('YYYY-MM-DD HH:mm:ss');
