@@ -9,7 +9,8 @@ const PORT = 3005;
 
 mongoose
     .connect('mongodb://localhost:27017/team_w2')
-    .then(() => console.log('mongodb is connected...'));
+    .then(() => console.log('mongodb is connected...'))
+    .catch((err) => console.log(err));
 
 
 async function requestListener(req, res) {

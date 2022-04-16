@@ -1,4 +1,29 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
+
+const schemaOptions = {
+    toObject: {
+        getters: true,
+        virtuals: true,
+        versionKey: false,
+        transform: function(doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+        }
+    },
+    toJSON: {
+        getters: true,
+        virtuals: true,
+        versionKey: false,
+        transform: function(doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+        }
+    },
+    runSettersOnQuery: true,
+};
+
+const formatDateTime = (date) => moment(date).format('YYYY-MM-DD HH:mm:ss');
 
 const ArticleListSchema = new mongoose.Schema(
     {
@@ -14,11 +39,10 @@ const ArticleListSchema = new mongoose.Schema(
         createAt: {
             type: Date,
             default: Date.now(),
+            get: formatDateTime,
         }
     },
-    {
-        versionKey: false,
-    }
+    schemaOptions,
 )
 
 const ArticleListModel = mongoose.model('ArticleList', ArticleListSchema);
