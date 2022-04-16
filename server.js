@@ -13,8 +13,8 @@ mongoose
     .then(() => console.log('mongodb is connected...'))
     .catch((err) => console.log(err));
 
-function encodeHtmlSpecialCharacters(str) {
-    return htmlEntities.encode(str.trim());
+function replaceHtmlSpecialCharacters(strAry) {
+    return strAry.map((str) => htmlEntities.encode(str.trim()));
 }
 
 async function requestListener(req, res) {
@@ -34,12 +34,13 @@ async function requestListener(req, res) {
     } else if ( req.url === '/ArticleList' && req.method === 'POST' ) {
         req.on('end', async () => {
             try {
-                let { userName, userContent, userPhoto } = JSON.parse(body);
+                // 前端給資料一定要照 userName, userContent, userPhoto 順序
+                const [
+                    userName,
+                    userContent,
+                    userPhoto
+                ] = replaceHtmlSpecialCharacters(Object.values(JSON.parse(body)));
                 let regex = /['\-<>]/g;
-
-                userName = encodeHtmlSpecialCharacters(userName);
-                userContent = encodeHtmlSpecialCharacters(userContent);
-                userPhoto = encodeHtmlSpecialCharacters(userPhoto);
 
                 if ( !userName ) {
                     error(res, 'userName property is required');
