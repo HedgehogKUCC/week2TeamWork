@@ -1,6 +1,12 @@
 const http = require('http');
+const mongoose = require('mongoose');
 
 const PORT = 3005;
+
+mongoose
+    .connect('mongodb://localhost:27017/team_w2')
+    .then(() => console.log('mongodb is connected...'));
+
 
 function requestListener(req, res) {
     if ( req.url === '/' && req.method === 'GET' ) {
