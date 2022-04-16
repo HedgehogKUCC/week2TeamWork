@@ -1,5 +1,6 @@
 const http = require('http');
 const mongoose = require('mongoose');
+const htmlEntities = require('html-entities');
 
 const { success, error } = require('./responseHandle.js');
 
@@ -12,6 +13,9 @@ mongoose
     .then(() => console.log('mongodb is connected...'))
     .catch((err) => console.log(err));
 
+function encodeHtmlSpecialCharacters(str) {
+    return htmlEntities.encode(str.trim());
+}
 
 async function requestListener(req, res) {
 
@@ -33,9 +37,9 @@ async function requestListener(req, res) {
                 let { userName, userContent, userPhoto } = JSON.parse(body);
                 let regex = /['\-<>]/g;
 
-                userName = userName.trim();
-                userContent = userContent.trim();
-                userPhoto = userPhoto.trim();
+                userName = encodeHtmlSpecialCharacters(userName);
+                userContent = encodeHtmlSpecialCharacters(userContent);
+                userPhoto = encodeHtmlSpecialCharacters(userPhoto);
 
                 if ( !userName ) {
                     error(res, 'userName property is required');
@@ -46,7 +50,7 @@ async function requestListener(req, res) {
                     return;
                 }
                 if ( regex.test(userName) || regex.test(userContent) || regex.test(userPhoto) ) {
-                    error(res, "Do not use special symbol ( ' - < > )");
+                    error(res, "Do not use special symbol dash(-)");
                     return;
                 }
 
