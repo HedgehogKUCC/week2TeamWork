@@ -1,0 +1,62 @@
+{
+	"info": {
+		"_postman_id": "296a71bf-b357-458d-addd-50f663ec926e",
+		"name": "Node_TeamTask_W2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "取得貼文",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:3005/ArticleList",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3005",
+					"path": [
+						"ArticleList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "新增貼文",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"KUCC\",\n    \"userContent\": \"123\",\n    \"userPhoto\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3005/ArticleList",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3005",
+					"path": [
+						"ArticleList"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
