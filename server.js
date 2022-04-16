@@ -1,5 +1,6 @@
 const http = require('http');
 const mongoose = require('mongoose');
+const htmlEntities = require('html-entities');
 
 const { success, error } = require('./responseHandle.js');
 
@@ -12,6 +13,9 @@ mongoose
     .then(() => console.log('mongodb is connected...'))
     .catch((err) => console.log(err));
 
+function replaceHtmlSpecialCharacters(strAry) {
+    return strAry.map((str) => htmlEntities.encode(str.trim()));
+}
 
 async function requestListener(req, res) {
 
@@ -30,12 +34,13 @@ async function requestListener(req, res) {
     } else if ( req.url === '/ArticleList' && req.method === 'POST' ) {
         req.on('end', async () => {
             try {
-                let { userName, userContent, userPhoto } = JSON.parse(body);
+                // 前端給資料一定要照 userName, userContent, userPhoto 順序
+                const [
+                    userName,
+                    userContent,
+                    userPhoto
+                ] = replaceHtmlSpecialCharacters(Object.values(JSON.parse(body)));
                 let regex = /['\-<>]/g;
-
-                userName = userName.trim();
-                userContent = userContent.trim();
-                userPhoto = userPhoto.trim();
 
                 if ( !userName ) {
                     error(res, 'userName property is required');
@@ -46,7 +51,7 @@ async function requestListener(req, res) {
                     return;
                 }
                 if ( regex.test(userName) || regex.test(userContent) || regex.test(userPhoto) ) {
-                    error(res, "Do not use special symbol ( ' - < > )");
+                    error(res, "Do not use special symbol dash(-)");
                     return;
                 }
 
