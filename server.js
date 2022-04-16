@@ -1,6 +1,8 @@
 const http = require('http');
 const mongoose = require('mongoose');
 
+const { success, error } = require('./responseHandle.js');
+
 const ArticleListModel = require('./models/ArticleList');
 
 const PORT = 3005;
@@ -23,12 +25,7 @@ async function requestListener(req, res) {
         res.end();
     } else if ( req.url === '/ArticleList' && req.method === 'GET' ) {
         const data = await ArticleListModel.find();
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify({
-            result: true,
-            data
-        }));
-        res.end();
+        success(res, data);
     } else if ( req.url === '/ArticleList' && req.method === 'POST' ) {
         req.on('end', async () => {
             try {
@@ -40,30 +37,15 @@ async function requestListener(req, res) {
                 userPhoto = userPhoto.trim();
 
                 if ( !userName ) {
-                    res.writeHead(400, {'Content-Type': 'application/json'});
-                    res.write(JSON.stringify({
-                        result: false,
-                        msg: 'userName property is required',
-                    }));
-                    res.end();
+                    error(res, 'userName property is required');
                     return;
                 }
                 if ( !userContent ) {
-                    res.writeHead(400, {'Content-Type': 'application/json'});
-                    res.write(JSON.stringify({
-                        result: false,
-                        msg: 'userContent property is required',
-                    }));
-                    res.end();
+                    error(res, 'userContent property is required');
                     return;
                 }
                 if ( regex.test(userName) || regex.test(userContent) || regex.test(userPhoto) ) {
-                    res.writeHead(400, {'Content-Type': 'application/json'});
-                    res.write(JSON.stringify({
-                        result: false,
-                        msg: "Do not use special symbol ( ' - < > )",
-                    }));
-                    res.end();
+                    error(res, "Do not use special symbol ( ' - < > )");
                     return;
                 }
 
@@ -74,19 +56,9 @@ async function requestListener(req, res) {
                         userPhoto,
                     }
                 );
-                res.writeHead(200, {'Content-Type': 'application/json'});
-                res.write(JSON.stringify({
-                    result: true,
-                    data,
-                }));
-                res.end();
+                success(res, data);
             } catch(err) {
-                res.writeHead(400, {'Content-Type': 'application/json'});
-                res.write(JSON.stringify({
-                    result: false,
-                    msg: err.message,
-                }));
-                res.end();
+                error(res, err.message);
             }
         });
     } else if ( req.method === 'OPTIONS' ) {
