@@ -7,8 +7,9 @@
 // 屬性請依照順序回傳
 
 {
-    "userName": String,
-    "userContent": String,
+    "userName": [ String, required ],
+    "userContent": [ String, required ],
     "userPhoto": String,
+    "imgUrl": String,
 }
 ```
