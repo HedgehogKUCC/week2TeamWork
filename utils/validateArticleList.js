@@ -24,12 +24,12 @@ module.exports = class ValidateArticleList {
 
     validateUserName() {
         if ( !this.userName ) {
-            this.errorMsg = 'userName property is required';
+            this.errorMsg = '【發文者名稱】必填';
             return;
         }
 
         if ( this.regexTest(this.userName) ) {
-            this.errorMsg = 'userName do not use special symbol dash(-)';
+            this.errorMsg = '【發文者名稱】請勿使用特殊符號 -';
         }
     }
 
@@ -39,12 +39,12 @@ module.exports = class ValidateArticleList {
         }
 
         if ( !this.userContent ) {
-            this.errorMsg = 'userContent property is required';
+            this.errorMsg = '【貼文內容】必填';
             return;
         }
 
         if ( this.regexTest(this.userContent) ) {
-            this.errorMsg = 'userContent do not use special symbol dash(-)';
+            this.errorMsg = '【貼文內容】請勿使用特殊符號 -';
         }
     }
 
@@ -54,7 +54,7 @@ module.exports = class ValidateArticleList {
         }
 
         if ( this.regexTest(this.userPhoto) ) {
-            this.errorMsg = 'userPhoto do not use special symbol dash(-)';
+            this.errorMsg = '【發文者照片】請勿使用特殊符號 -';
         }
     }
 
@@ -64,7 +64,7 @@ module.exports = class ValidateArticleList {
         }
 
         if ( this.regexTest(this.imgUrl) ) {
-            this.errorMsg = 'imgUrl do not use special symbol dash(-)';
+            this.errorMsg = '【圖片網址】請勿使用特殊符號 -';
         }
     }
 
