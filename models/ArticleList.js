@@ -30,7 +30,7 @@ const ArticleListSchema = new mongoose.Schema(
     {
         userName: {
             type: String,
-            required: [true, "【姓名】必填"],
+            required: [true, "【名稱】必填"],
         },
         userContent: {
             type: String,
