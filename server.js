@@ -34,11 +34,12 @@ async function requestListener(req, res) {
     } else if ( req.url === '/ArticleList' && req.method === 'POST' ) {
         req.on('end', async () => {
             try {
-                // 前端給資料一定要照 userName, userContent, userPhoto 順序
+                // 前端給資料一定要照 userName, userContent, userPhoto, imgUrl 順序
                 const [
                     userName,
                     userContent,
-                    userPhoto
+                    userPhoto,
+                    imgUrl
                 ] = replaceHtmlSpecialCharacters(Object.values(JSON.parse(body)));
                 let regex = /['\-<>]/g;
 
@@ -50,7 +51,7 @@ async function requestListener(req, res) {
                     error(res, 'userContent property is required');
                     return;
                 }
-                if ( regex.test(userName) || regex.test(userContent) || regex.test(userPhoto) ) {
+                if ( regex.test(userName) || regex.test(userContent) || regex.test(userPhoto) || regex.test(imgUrl) ) {
                     error(res, "Do not use special symbol dash(-)");
                     return;
                 }
@@ -60,6 +61,7 @@ async function requestListener(req, res) {
                         userName,
                         userContent,
                         userPhoto,
+                        imgUrl,
                     }
                 );
                 success(res, data);

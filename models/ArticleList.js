@@ -37,6 +37,7 @@ const ArticleListSchema = new mongoose.Schema(
             required: [true, "【內容】必填"],
         },
         userPhoto: String,
+        imgUrl: String,
         createAt: {
             type: Date,
             default: Date.now(),
